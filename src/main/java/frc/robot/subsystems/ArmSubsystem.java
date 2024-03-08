@@ -11,7 +11,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final TalonFX m_Forearm = new TalonFX(9);
 
     // Grippers
-    private final CANSparkMax m_Top_Grippy = new CANSparkMax(3, MotorType.kBrushless);
-    private final CANSparkMax m_Bottom_Grippy = new CANSparkMax(4, MotorType.kBrushless);
+    private final CANSparkMax m_Top_Grippy = new CANSparkMax(16, MotorType.kBrushless);
+    private final CANSparkMax m_Bottom_Grippy = new CANSparkMax(17, MotorType.kBrushless);
 
 }
