@@ -30,16 +30,25 @@ public class RobotContainer {
     final CommandXboxController driverXbox = new CommandXboxController(0);
 
     // Create Commands
+    
+    // Auto Shoot maybe?
+    Command Auto = Commands.sequence(
+        // Rotate 90 and move a little away
+        Commands.deferredProxy(() -> drivebase.driveToPose(new Pose2d(0, 0, null)))
+    );
 
     // Intake
 
     // Shoot
     Command shoot = Commands.sequence(
             Commands.runOnce(shooter::spoolShooter, shooter),
-            Commands.waitUntil(shooter::isAtSpeed),
-            Commands.runOnce(intake::startIntake, intake),
-            Commands.runOnce(intake::runFeeder, intake),
-            Commands.waitSeconds(2).withTimeout(5)
+            Commands.waitSeconds(1).andThen(
+                () -> {
+                        intake.startIntake();
+                        intake.runFeeder();
+                }
+            ),
+            Commands.waitSeconds(1.5)
                     .andThen(
                             () -> {
                                 intake.stopFeeder();
@@ -50,27 +59,27 @@ public class RobotContainer {
     public RobotContainer() {
         configureBindings();
 
-        AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
-                () -> -MathUtil.applyDeadband(driverXbox.getLeftY(),
-                        OperatorConstants.LEFT_Y_DEADBAND),
-                () -> -MathUtil.applyDeadband(driverXbox.getLeftX(),
-                        OperatorConstants.LEFT_X_DEADBAND),
-                () -> -MathUtil.applyDeadband(driverXbox.getRightX(),
-                        OperatorConstants.RIGHT_X_DEADBAND),
-                driverXbox.getHID()::getYButtonPressed,
-                driverXbox.getHID()::getAButtonPressed,
-                driverXbox.getHID()::getXButtonPressed,
-                driverXbox.getHID()::getBButtonPressed);
+        // AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
+        //         () -> -MathUtil.applyDeadband(driverXbox.getLeftY(),
+        //                 OperatorConstants.LEFT_Y_DEADBAND),
+        //         () -> -MathUtil.applyDeadband(driverXbox.getLeftX(),
+        //                 OperatorConstants.LEFT_X_DEADBAND),
+        //         () -> -MathUtil.applyDeadband(driverXbox.getRightX(),
+        //                 OperatorConstants.RIGHT_X_DEADBAND),
+        //         driverXbox.getHID()::getYButtonPressed,
+        //         driverXbox.getHID()::getAButtonPressed,
+        //         driverXbox.getHID()::getXButtonPressed,
+        //         driverXbox.getHID()::getBButtonPressed);
         // Applies deadbands and inverts controls because joysticks
         // are back-right positive while robot
         // controls are front-left positive
         // left stick controls translation
-        // right stick controls the desired angle NOT angular rotation
-        Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-                () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-                () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-                () -> -driverXbox.getRightX(),
-                () -> -driverXbox.getRightY());
+        // // right stick controls the desired angle NOT angular rotation
+        // Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
+        //         () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        //         () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        //         () -> -driverXbox.getRightX(),
+        //         () -> -driverXbox.getRightY());
 
         // Applies deadbands and inverts controls because joysticks
         // are back-right positive while robot
@@ -103,6 +112,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
+        // rotate 45 degrees drive 4 feet shoot
+        
         return Commands.print("No autonomous command configured");
     }
 }

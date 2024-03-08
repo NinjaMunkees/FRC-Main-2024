@@ -2,23 +2,29 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
     // Shooter Motor
     private final TalonFX m_shooter = new TalonFX(8);
     // Vars
-    private final double SHOOTER_SPEED = 1600;
+    private final double SHOOTER_SPEED = 10600;
 
     public boolean isAtSpeed() {
-        return m_shooter.get() == SHOOTER_SPEED;
+        return m_shooter.get() >= SHOOTER_SPEED;
     }
 
     public void spoolShooter() {
-        m_shooter.set(SHOOTER_SPEED);
+        m_shooter.set(1);
     }
 
     public void stopShooter() {
         m_shooter.set(0);
+    }
+    @Override
+    public void periodic()
+    {
+        SmartDashboard.putNumber("Shooter", m_shooter.get());
     }
 }
