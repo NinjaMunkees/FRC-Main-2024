@@ -12,8 +12,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax m_feeder = new CANSparkMax(7, MotorType.kBrushless);
 
     // Vars
-    private final double INTAKE_SPEED = 0.8;
-    private final double REV_INTAKE_SPEED = -0.8;
+    private final double INTAKE_SPEED = 1;
+    private final double REV_INTAKE_SPEED = -1;
 
     private final double FEED_SPEED = 1;
     private final double REV_FEED_SPEED = -1;

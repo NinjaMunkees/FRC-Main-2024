@@ -47,7 +47,7 @@ public class SwerveSubsystem extends SubsystemBase {
     /**
      * Maximum speed of the robot in meters per second, used to limit acceleration.
      */
-    public double maximumSpeed = Units.feetToMeters(6);
+    public double maximumSpeed = Units.feetToMeters(9);
 
     /**
      * Initialize {@link SwerveDrive} with the directory provided.
@@ -114,9 +114,9 @@ public class SwerveSubsystem extends SubsystemBase {
                 // RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should
                         // likely live in your Constants class
-                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0), // Angle PID constants
-                        4.5,
+                        new PIDConstants(0.1, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(0.1, 0.0, 0.0), // Angle PID constants
+                        3,
                         // Max module speed, in m/s
                         swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
                         // Drive base radius in meters. Distance from robot center to furthest

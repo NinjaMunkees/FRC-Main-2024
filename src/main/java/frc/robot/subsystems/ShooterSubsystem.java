@@ -9,14 +9,14 @@ public class ShooterSubsystem extends SubsystemBase {
     // Shooter Motor
     private final TalonFX m_shooter = new TalonFX(8);
     // Vars
-    private final double SHOOTER_SPEED = 10600;
+    private final double SHOOTER_SPEED = 1;
 
     public boolean isAtSpeed() {
         return m_shooter.get() >= SHOOTER_SPEED;
     }
 
     public void spoolShooter() {
-        m_shooter.set(1);
+        m_shooter.set(SHOOTER_SPEED);
     }
 
     public void stopShooter() {
